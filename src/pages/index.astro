@@ -1,0 +1,36 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Navbar from '@/components/Navbar.astro';
+import Hero from '@/components/Hero.astro';
+import DashboardMock from '@/components/DashboardMock.astro';
+import Features from '@/components/Features.astro';
+import HowItWorks from '@/components/HowItWorks.astro';
+import PricingSimulator from '@/components/PricingSimulator.astro';
+import Comparison from '@/components/Comparison.astro';
+import CaseStudy from '@/components/CaseStudy.astro';
+import FinalCTA from '@/components/FinalCTA.astro';
+import Footer from '@/components/Footer.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+---
+
+<Layout
+  title="ORBITstay — Gestão Hoteleira Completa. PMS, Booking Engine e Check-in Digital."
+  description="Plataforma completa de gestão hoteleira. PMS, booking engine, check-in digital e fechadura inteligente. Zero recepção obrigatória — do cadastro ao check-out, 100% digital."
+  canonical="https://orbitstay.com.br"
+>
+  <Navbar />
+  <main>
+    <Hero />
+    <section style="padding: 0 0 80px; background: var(--ink);">
+      <DashboardMock />
+    </section>
+    <Features />
+    <HowItWorks />
+    <PricingSimulator />
+    <Comparison />
+    <CaseStudy />
+    <FinalCTA />
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>

@@ -1,0 +1,210 @@
+---
+---
+
+<section class="comparison-section">
+  <div class="comparison-inner">
+    <div class="comparison-header" data-reveal>
+      <h2>Por que não continuar com OTAs?</h2>
+      <p class="comparison-sub">
+        Booking.com cobra até 18% de comissão. Com ORBITstay, suas reservas diretas custam
+        <strong>R$ 0 de comissão.</strong>
+      </p>
+    </div>
+
+    <div class="comparison-grid">
+      <!-- Card esquerdo: Só com OTAs -->
+      <div class="comp-card bad" data-reveal data-delay="1">
+        <div class="comp-card-header">
+          <span class="comp-icon">❌</span>
+          <h3 class="comp-title bad-title">Só com OTAs</h3>
+        </div>
+        <ul class="comp-list">
+          <li class="comp-item bad-item">
+            <span class="comp-mark no">✗</span>
+            15–18% de comissão por reserva
+          </li>
+          <li class="comp-item bad-item">
+            <span class="comp-mark no">✗</span>
+            Sem dados do hóspede (é do OTA)
+          </li>
+          <li class="comp-item bad-item">
+            <span class="comp-mark no">✗</span>
+            Dependência total de terceiros
+          </li>
+          <li class="comp-item bad-item">
+            <span class="comp-mark no">✗</span>
+            Sem site próprio profissional
+          </li>
+          <li class="comp-item bad-item">
+            <span class="comp-mark no">✗</span>
+            Sem check-in digital
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card direito: Com ORBITstay -->
+      <div class="comp-card good" data-reveal data-delay="2">
+        <div class="comp-card-header">
+          <span class="comp-icon">✓</span>
+          <h3 class="comp-title good-title">Com ORBITstay</h3>
+        </div>
+        <ul class="comp-list">
+          <li class="comp-item good-item">
+            <span class="comp-mark yes">✓</span>
+            R$ 0 comissão em reservas diretas
+          </li>
+          <li class="comp-item good-item">
+            <span class="comp-mark yes">✓</span>
+            Dados 100% seus (LGPD compliant)
+          </li>
+          <li class="comp-item good-item">
+            <span class="comp-mark yes">✓</span>
+            Motor de reservas próprio + OTAs
+          </li>
+          <li class="comp-item good-item">
+            <span class="comp-mark yes">✓</span>
+            Site profissional com SEO
+          </li>
+          <li class="comp-item good-item">
+            <span class="comp-mark yes">✓</span>
+            Check-in digital + fechadura smart
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .comparison-section {
+    padding: 100px 24px;
+    background: var(--navy);
+  }
+
+  .comparison-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .comparison-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .comparison-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .comparison-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .comparison-sub strong {
+    color: var(--cyan);
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .comp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 32px;
+  }
+
+  .comp-card.good {
+    border-color: rgba(108, 92, 231, 0.5);
+    box-shadow: 0 8px 40px rgba(108, 92, 231, 0.12);
+  }
+
+  .comp-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comp-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .comp-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .bad-title {
+    color: #FF6B6B;
+  }
+
+  .good-title {
+    color: var(--cyan);
+  }
+
+  .comp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .comp-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .bad-item {
+    color: rgba(248, 249, 252, 0.65);
+  }
+
+  .good-item {
+    color: rgba(248, 249, 252, 0.9);
+  }
+
+  .comp-mark {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 1px;
+  }
+
+  .comp-mark.no {
+    color: #FF6B6B;
+  }
+
+  .comp-mark.yes {
+    color: var(--cyan);
+  }
+
+  @media (max-width: 700px) {
+    .comparison-section {
+      padding: 60px 16px;
+    }
+
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .comparison-header h2 {
+      font-size: 1.7rem;
+    }
+  }
+</style>

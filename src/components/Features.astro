@@ -1,0 +1,176 @@
+---
+const features = [
+  {
+    icon: '🏨',
+    title: 'PMS Completo',
+    desc: 'Gestão de quartos, reservas, hóspedes e tarifas em um só lugar.',
+  },
+  {
+    icon: '📱',
+    title: 'Check-in Digital',
+    desc: 'FNRH digital, envio de documentos e assinatura — tudo pelo celular do hóspede.',
+  },
+  {
+    icon: '🔐',
+    title: 'Fechadura Digital',
+    desc: 'Integração TTLock — senha temporária gerada automaticamente por reserva.',
+  },
+  {
+    icon: '🌐',
+    title: 'Motor de Reservas',
+    desc: 'Booking engine próprio embarcável no seu site. Zero comissão sobre reservas diretas.',
+  },
+  {
+    icon: '📊',
+    title: 'Channel Manager',
+    desc: 'Sincronize tarifas e disponibilidade com Booking.com, Expedia e mais OTAs.',
+  },
+  {
+    icon: '💬',
+    title: 'WhatsApp Integrado',
+    desc: 'Notificações automáticas de confirmação, pré-check-in e check-out para o hóspede.',
+  },
+  {
+    icon: '💳',
+    title: 'Pagamentos Online',
+    desc: 'Cobrança via Pagar.me com tokenização segura. PCI-compliant, sem PAN no servidor.',
+  },
+  {
+    icon: '📋',
+    title: 'LGPD Compliant',
+    desc: 'Anonimização automática, retenção configurável e direito ao esquecimento integrado.',
+  },
+  {
+    icon: '🚀',
+    title: 'Site do Hotel',
+    desc: 'Templates prontos com SEO otimizado, Schema.org e deploy em 1 clique.',
+  },
+];
+---
+
+<section id="recursos" class="features-section">
+  <div class="features-inner">
+    <div class="section-header" data-reveal>
+      <div class="section-badge">Recursos</div>
+      <h2>Tudo que seu hotel precisa. <span class="muted-span">Nada que não precisa.</span></h2>
+    </div>
+
+    <div class="features-grid">
+      {features.map((feature, i) => (
+        <div class="feature-card" data-reveal data-delay={String(i + 1)}>
+          <div class="feature-icon">{feature.icon}</div>
+          <h3 class="feature-title">{feature.title}</h3>
+          <p class="feature-desc">{feature.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .features-section {
+    padding: 100px 24px;
+  }
+
+  .features-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(108, 92, 231, 0.3);
+    background: rgba(108, 92, 231, 0.1);
+    color: var(--accent-light);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .muted-span {
+    color: var(--muted);
+    display: block;
+    font-size: 1.8rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(108, 92, 231, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .feature-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .features-section {
+      padding: 60px 16px;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .muted-span {
+      font-size: 1.4rem;
+    }
+  }
+</style>

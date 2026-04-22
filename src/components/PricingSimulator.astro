@@ -1,0 +1,523 @@
+---
+const planos = [
+  {
+    nome: 'Starter',
+    min: 1,
+    max: 5,
+    preco: 'R$ 99',
+    periodo: '/mês',
+    features: [
+      { text: '2 usuários', ok: true },
+      { text: '1 OTA conectada', ok: true },
+      { text: 'Channel manager', ok: false },
+      { text: 'WhatsApp automático', ok: false },
+      { text: 'Fechadura digital', ok: false },
+      { text: '1 template de site', ok: true },
+      { text: 'Acesso à API', ok: false },
+      { text: 'Suporte por e-mail', ok: true },
+    ],
+  },
+  {
+    nome: 'Growth',
+    min: 6,
+    max: 15,
+    preco: 'R$ 249',
+    periodo: '/mês',
+    features: [
+      { text: '5 usuários', ok: true },
+      { text: '3 OTAs conectadas', ok: true },
+      { text: 'Channel manager', ok: true },
+      { text: 'WhatsApp automático', ok: true },
+      { text: 'Fechadura digital', ok: false },
+      { text: '3 templates de site', ok: true },
+      { text: 'Acesso à API', ok: false },
+      { text: 'Suporte por chat', ok: true },
+    ],
+  },
+  {
+    nome: 'Scale',
+    min: 16,
+    max: 30,
+    preco: 'R$ 499',
+    periodo: '/mês',
+    features: [
+      { text: '10 usuários', ok: true },
+      { text: '5 OTAs conectadas', ok: true },
+      { text: 'Channel manager', ok: true },
+      { text: 'WhatsApp automático', ok: true },
+      { text: 'Fechadura digital', ok: true },
+      { text: '5 templates de site', ok: true },
+      { text: 'Acesso à API', ok: false },
+      { text: 'Suporte prioritário', ok: true },
+    ],
+  },
+  {
+    nome: 'Business',
+    min: 31,
+    max: 60,
+    preco: 'R$ 899',
+    periodo: '/mês',
+    features: [
+      { text: '20 usuários', ok: true },
+      { text: 'OTAs ilimitadas', ok: true },
+      { text: 'Channel manager', ok: true },
+      { text: 'WhatsApp automático', ok: true },
+      { text: 'Fechadura digital', ok: true },
+      { text: 'Templates ilimitados', ok: true },
+      { text: 'Acesso à API', ok: true },
+      { text: 'Suporte dedicado', ok: true },
+    ],
+  },
+  {
+    nome: 'Enterprise',
+    min: 61,
+    max: 80,
+    preco: 'Sob consulta',
+    periodo: '',
+    features: [
+      { text: 'Usuários ilimitados', ok: true },
+      { text: 'OTAs ilimitadas', ok: true },
+      { text: 'Channel manager', ok: true },
+      { text: 'WhatsApp automático', ok: true },
+      { text: 'Fechadura digital', ok: true },
+      { text: 'Templates ilimitados', ok: true },
+      { text: 'API + webhooks', ok: true },
+      { text: 'SLA customizado', ok: true },
+    ],
+  },
+];
+---
+
+<section id="planos" class="pricing-section">
+  <div class="pricing-inner">
+    <div class="section-header" data-reveal>
+      <div class="section-badge">Planos</div>
+      <h2>Quanto custa?</h2>
+      <span class="muted-sub">Depende do tamanho do seu hotel.</span>
+    </div>
+
+    <!-- Slider -->
+    <div class="slider-wrapper" data-reveal data-delay="1">
+      <label for="quartos-slider" class="slider-label">
+        Quantos quartos seu hotel tem?
+      </label>
+      <div class="slider-display">
+        <span id="quartos-count" class="quartos-num">10</span>
+        <span class="quartos-text"> quartos</span>
+      </div>
+      <input
+        type="range"
+        id="quartos-slider"
+        min="1"
+        max="80"
+        value="10"
+        class="range-input"
+        aria-label="Número de quartos"
+      />
+      <div class="slider-labels">
+        <span>1</span>
+        <span>20</span>
+        <span>40</span>
+        <span>60</span>
+        <span>80+</span>
+      </div>
+      <div class="plano-rec-row">
+        Plano recomendado: <span id="plano-recomendado" class="plano-rec-name">Growth</span>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="planos-grid" data-reveal data-delay="2">
+      {planos.map((plano, idx) => (
+        <div class="plano-card" data-idx={idx}>
+          <div class="plano-ideal-tag">IDEAL</div>
+          <div class="plano-nome">{plano.nome}</div>
+          <div class="plano-range">{plano.min}–{plano.max === 80 ? '80+' : plano.max} quartos</div>
+          <div class="plano-preco">
+            {plano.periodo ? (
+              <>
+                <span class="preco-valor gradient-text">{plano.preco}</span>
+                <span class="preco-periodo">{plano.periodo}</span>
+              </>
+            ) : (
+              <span class="preco-consulta">{plano.preco}</span>
+            )}
+          </div>
+          <ul class="plano-features">
+            {plano.features.map((f) => (
+              <li class={f.ok ? 'feat-ok' : 'feat-no'}>
+                <span class="feat-icon">{f.ok ? '✓' : '✗'}</span>
+                {f.text}
+              </li>
+            ))}
+          </ul>
+          <!-- TODO: substituir número WhatsApp real -->
+          <a
+            href={`https://wa.me/5567999999999?text=Olá%2C%20tenho%20interesse%20no%20plano%20${plano.nome}%20do%20ORBITstay`}
+            class="plano-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Falar com vendas
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing-section {
+    padding: 100px 24px;
+    background: var(--ink);
+  }
+
+  .pricing-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(108, 92, 231, 0.3);
+    background: rgba(108, 92, 231, 0.1);
+    color: var(--accent-light);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .muted-sub {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  /* Slider */
+  .slider-wrapper {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 48px;
+    text-align: center;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .slider-label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .slider-display {
+    margin-bottom: 20px;
+  }
+
+  .quartos-num {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .quartos-text {
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .range-input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 6px;
+    background: var(--surface);
+    outline: none;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+
+  .range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid var(--accent-light);
+    box-shadow: 0 0 12px rgba(108, 92, 231, 0.4);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .range-input::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 20px rgba(108, 92, 231, 0.6);
+  }
+
+  .range-input::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid var(--accent-light);
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .slider-labels span {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .plano-rec-row {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .plano-rec-name {
+    font-weight: 700;
+    color: var(--accent-light);
+    background: rgba(108, 92, 231, 0.15);
+    padding: 2px 10px;
+    border-radius: 6px;
+    margin-left: 4px;
+  }
+
+  /* Plan cards */
+  .planos-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .plano-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plano-ideal-tag {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--gradient-primary);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 0 16px 0 8px;
+  }
+
+  .plano-card.plano-ativo {
+    border-color: var(--accent);
+    transform: scale(1.03);
+    box-shadow: 0 8px 40px rgba(108, 92, 231, 0.25);
+  }
+
+  .plano-card.plano-ativo .plano-ideal-tag {
+    display: block;
+  }
+
+  .plano-nome {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .plano-range {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .plano-preco {
+    margin-bottom: 20px;
+    min-height: 48px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .preco-valor {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .preco-periodo {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .preco-consulta {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .plano-features {
+    list-style: none;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .plano-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .feat-ok {
+    color: var(--white);
+  }
+
+  .feat-no {
+    color: var(--muted);
+  }
+
+  .feat-icon {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    margin-top: 1px;
+  }
+
+  .feat-ok .feat-icon {
+    color: #55efc4;
+  }
+
+  .feat-no .feat-icon {
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  .plano-btn {
+    display: block;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .plano-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent-light);
+  }
+
+  .plano-ativo .plano-btn {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: #fff;
+  }
+
+  @media (max-width: 1024px) {
+    .planos-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .pricing-section {
+      padding: 60px 16px;
+    }
+
+    .planos-grid {
+      grid-template-columns: 1fr 1fr;
+      overflow-x: auto;
+    }
+
+    .slider-wrapper {
+      padding: 24px 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .planos-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const slider = document.getElementById('quartos-slider') as HTMLInputElement | null;
+  const countEl = document.getElementById('quartos-count');
+  const planoEl = document.getElementById('plano-recomendado');
+  const cards = document.querySelectorAll('.plano-card');
+
+  const planos = [
+    { min: 1, max: 5, nome: 'Starter', idx: 0 },
+    { min: 6, max: 15, nome: 'Growth', idx: 1 },
+    { min: 16, max: 30, nome: 'Scale', idx: 2 },
+    { min: 31, max: 60, nome: 'Business', idx: 3 },
+    { min: 61, max: 80, nome: 'Enterprise', idx: 4 },
+  ];
+
+  function updatePlano(val: number) {
+    if (countEl) countEl.textContent = val === 80 ? '80+' : String(val);
+    const plano = planos.find((p) => val >= p.min && val <= p.max) ?? planos[4];
+    if (planoEl) planoEl.textContent = plano.nome;
+    cards.forEach((card, i) => {
+      if (i === plano.idx) {
+        card.classList.add('plano-ativo');
+      } else {
+        card.classList.remove('plano-ativo');
+      }
+    });
+  }
+
+  if (slider) {
+    slider.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      updatePlano(parseInt(target.value));
+    });
+    updatePlano(parseInt(slider.value));
+  }
+</script>
