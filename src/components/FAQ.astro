@@ -1,0 +1,151 @@
+---
+const faqs = [
+  {
+    q: 'Preciso de cartão de crédito para começar?',
+    a: 'Não. O período de teste de 14 dias é completamente gratuito e sem compromisso. Você só precisa de um e-mail para criar sua conta.',
+  },
+  {
+    q: 'O motor de reservas cobra comissão?',
+    a: 'Não. Reservas diretas pelo seu site têm zero comissão. Você paga apenas a mensalidade do plano escolhido.',
+  },
+  {
+    q: 'Posso usar meu próprio domínio?',
+    a: 'Sim. Nos planos Scale e superiores você pode configurar um domínio personalizado (ex: reservas.seuhotel.com.br). Também oferecemos como addon nos planos menores.',
+  },
+  {
+    q: 'Como funciona a integração com fechadura digital?',
+    a: 'Integramos nativamente com TTLock. Cada reserva confirmada gera automaticamente uma senha temporária válida apenas no período da hospedagem — sem intervenção manual.',
+  },
+  {
+    q: 'O sistema é seguro?',
+    a: 'Sim. Dados criptografados em trânsito e em repouso, infraestrutura PCI-compliant, conformidade com LGPD, e servidores localizados no Brasil.',
+  },
+  {
+    q: 'Posso cancelar a qualquer momento?',
+    a: 'Sim, sem multa contratual. Ao cancelar, seu acesso continua ativo até o fim do período já pago. Seus dados ficam disponíveis para exportação por 30 dias.',
+  },
+  {
+    q: 'Funciona para pousadas e hostels também?',
+    a: 'Sim. O ORBITstay atende desde pousadas com 5 quartos até hotéis boutique com 100+ unidades. Os planos escalam conforme o tamanho da operação.',
+  },
+];
+---
+
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header" data-reveal>
+      <h2>Perguntas frequentes</h2>
+      <p class="faq-sub">Tudo o que você precisa saber antes de começar.</p>
+    </div>
+
+    <div class="faq-list" data-reveal data-delay="1">
+      {faqs.map((item, i) => (
+        <details class="faq-item" name="faq">
+          <summary class="faq-question">
+            <span>{item.q}</span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </span>
+          </summary>
+          <div class="faq-answer">
+            <p>{item.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding: 100px 24px;
+    background: var(--ink);
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .faq-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .faq-sub {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+
+  .faq-item[open] {
+    border-color: rgba(108, 92, 231, 0.4);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--white);
+    user-select: none;
+    transition: color 0.2s ease;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question:hover { color: rgba(255,255,255,0.85); }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    padding: 0 20px 18px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .faq-section { padding: 72px 16px; }
+    .faq-header h2 { font-size: 1.6rem; }
+  }
+</style>

@@ -5,6 +5,7 @@ const planos = [
     min: 1,
     max: 5,
     preco: 'R$ 99',
+    precoAnual: 'R$ 990',
     periodo: '/mês',
     features: [
       { text: '2 usuários', ok: true },
@@ -22,6 +23,7 @@ const planos = [
     min: 6,
     max: 15,
     preco: 'R$ 249',
+    precoAnual: 'R$ 2.490',
     periodo: '/mês',
     features: [
       { text: '5 usuários', ok: true },
@@ -39,6 +41,7 @@ const planos = [
     min: 16,
     max: 30,
     preco: 'R$ 499',
+    precoAnual: 'R$ 4.990',
     periodo: '/mês',
     features: [
       { text: '10 usuários', ok: true },
@@ -56,6 +59,7 @@ const planos = [
     min: 31,
     max: 60,
     preco: 'R$ 899',
+    precoAnual: 'R$ 8.990',
     periodo: '/mês',
     features: [
       { text: '20 usuários', ok: true },
@@ -73,6 +77,7 @@ const planos = [
     min: 61,
     max: 80,
     preco: 'Sob consulta',
+    precoAnual: 'Sob consulta',
     periodo: '',
     features: [
       { text: 'Usuários ilimitados', ok: true },
@@ -94,6 +99,17 @@ const planos = [
       <div class="section-badge">Planos</div>
       <h2>Quanto custa?</h2>
       <span class="muted-sub">Depende do tamanho do seu hotel.</span>
+    </div>
+
+    <!-- Billing cycle toggle -->
+    <div class="cycle-toggle-row" data-reveal>
+      <div class="cycle-toggle">
+        <button id="btn-mensal" class="cycle-btn cycle-active" type="button">Mensal</button>
+        <button id="btn-anual" class="cycle-btn" type="button">
+          Anual
+          <span class="cycle-badge">2 meses grátis</span>
+        </button>
+      </div>
     </div>
 
     <!-- Slider -->
@@ -136,8 +152,8 @@ const planos = [
           <div class="plano-preco">
             {plano.periodo ? (
               <>
-                <span class="preco-valor gradient-text">{plano.preco}</span>
-                <span class="preco-periodo">{plano.periodo}</span>
+                <span class="preco-valor gradient-text" data-mensal={plano.preco} data-anual={plano.precoAnual}>{plano.preco}</span>
+                <span class="preco-periodo" data-mensal="/mês" data-anual="/ano">{plano.periodo}</span>
               </>
             ) : (
               <span class="preco-consulta">{plano.preco}</span>
@@ -153,7 +169,7 @@ const planos = [
           </ul>
           <!-- TODO: substituir número WhatsApp real -->
           <a
-            href={`https://wa.me/5567999999999?text=Olá%2C%20tenho%20interesse%20no%20plano%20${plano.nome}%20do%20ORBITstay`}
+            href={`https://wa.me/5567984020002?text=Olá%2C%20tenho%20interesse%20no%20plano%20${plano.nome}%20do%20ORBITstay`}
             class="plano-btn"
             target="_blank"
             rel="noopener noreferrer"
@@ -208,6 +224,59 @@ const planos = [
   .muted-sub {
     color: var(--muted);
     font-size: 1.1rem;
+  }
+
+  /* Billing cycle toggle */
+  .cycle-toggle-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .cycle-toggle {
+    display: inline-flex;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 2px;
+  }
+
+  .cycle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border-radius: 9px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background: transparent;
+  }
+
+  .cycle-btn.cycle-active {
+    background: var(--gradient-primary);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(108, 92, 231, 0.3);
+  }
+
+  .cycle-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: rgba(85, 239, 196, 0.2);
+    color: #55efc4;
+    padding: 2px 8px;
+    border-radius: 100px;
+    border: 1px solid rgba(85, 239, 196, 0.3);
+  }
+
+  .cycle-active .cycle-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
   /* Slider */
@@ -491,6 +560,8 @@ const planos = [
   const countEl = document.getElementById('quartos-count');
   const planoEl = document.getElementById('plano-recomendado');
   const cards = document.querySelectorAll('.plano-card');
+  const btnMensal = document.getElementById('btn-mensal');
+  const btnAnual = document.getElementById('btn-anual');
 
   const planos = [
     { min: 1, max: 5, nome: 'Starter', idx: 0 },
@@ -499,6 +570,28 @@ const planos = [
     { min: 31, max: 60, nome: 'Business', idx: 3 },
     { min: 61, max: 80, nome: 'Enterprise', idx: 4 },
   ];
+
+  let cicloAtual: 'mensal' | 'anual' = 'mensal';
+
+  function updateCycle(ciclo: 'mensal' | 'anual') {
+    cicloAtual = ciclo;
+    btnMensal?.classList.toggle('cycle-active', ciclo === 'mensal');
+    btnAnual?.classList.toggle('cycle-active', ciclo === 'anual');
+
+    document.querySelectorAll('.preco-valor[data-mensal]').forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.textContent = ciclo === 'anual'
+        ? (htmlEl.dataset.anual ?? '')
+        : (htmlEl.dataset.mensal ?? '');
+    });
+
+    document.querySelectorAll('.preco-periodo[data-mensal]').forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.textContent = ciclo === 'anual'
+        ? (htmlEl.dataset.anual ?? '')
+        : (htmlEl.dataset.mensal ?? '');
+    });
+  }
 
   function updatePlano(val: number) {
     if (countEl) countEl.textContent = val === 80 ? '80+' : String(val);
@@ -512,6 +605,9 @@ const planos = [
       }
     });
   }
+
+  btnMensal?.addEventListener('click', () => updateCycle('mensal'));
+  btnAnual?.addEventListener('click', () => updateCycle('anual'));
 
   if (slider) {
     slider.addEventListener('input', (e) => {
