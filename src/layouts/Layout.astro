@@ -3,12 +3,24 @@ interface Props {
   title: string;
   description?: string;
   canonical?: string;
+  ogType?: 'website' | 'article';
+  ogImage?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  hideDefaultJsonLd?: boolean;
 }
 
 const {
   title,
   description = 'Plataforma completa de gestão hoteleira. PMS, booking engine, check-in digital e fechadura inteligente.',
   canonical = 'https://orbitstay.com.br',
+  ogType = 'website',
+  ogImage = '/og-image.png',
+  ogTitle = title,
+  ogDescription = description,
+  jsonLd,
+  hideDefaultJsonLd = false,
 } = Astro.props;
 ---
 
@@ -20,18 +32,18 @@ const {
     <meta name="description" content={description} />
 
     <!-- Open Graph -->
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="pt_BR" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Canonical -->
     <link rel="canonical" href={canonical} />
@@ -49,29 +61,33 @@ const {
 
     <title>{title}</title>
 
-    <!-- Schema.org JSON-LD -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "ORBITstay",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
-        "description": "Plataforma completa de gestão hoteleira. PMS, booking engine, check-in digital e fechadura inteligente.",
-        "url": "https://orbitstay.com.br",
-        "offers": {
-          "@type": "AggregateOffer",
-          "lowPrice": "99",
-          "highPrice": "899",
-          "priceCurrency": "BRL",
-          "offerCount": 5
+    <!-- Schema.org JSON-LD (default Software para landing) -->
+    {!hideDefaultJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'ORBITstay',
+        applicationCategory: 'BusinessApplication',
+        operatingSystem: 'Web',
+        description: 'Plataforma completa de gestão hoteleira. PMS, booking engine, check-in digital e fechadura inteligente.',
+        url: 'https://orbitstay.com.br',
+        offers: {
+          '@type': 'AggregateOffer',
+          lowPrice: '99',
+          highPrice: '899',
+          priceCurrency: 'BRL',
+          offerCount: 5,
         },
-        "author": {
-          "@type": "Organization",
-          "name": "ORBITstay"
-        }
-      }
-    </script>
+        author: { '@type': 'Organization', name: 'ORBITstay' },
+      })} />
+    )}
+
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+
+    <!-- RSS feed do blog -->
+    <link rel="alternate" type="application/rss+xml" title="Blog ORBITstay" href="/blog/rss.xml" />
   </head>
   <body>
     <slot />

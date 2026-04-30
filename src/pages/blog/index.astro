@@ -1,0 +1,334 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+const CATEGORY_META: Record<string, { label: string; color: string }> = {
+  gestao:       { label: 'Gestão',       color: '#3B82F6' },
+  tecnologia:   { label: 'Tecnologia',   color: '#8B5CF6' },
+  tendencias:   { label: 'Tendências',   color: '#14B8A6' },
+  revenue:      { label: 'Revenue',      color: '#22C55E' },
+  experiencia:  { label: 'Experiência',  color: '#EC4899' },
+  operacao:     { label: 'Operação',     color: '#F97316' },
+};
+
+const usedCategories = Array.from(new Set(posts.map((p) => p.data.category)));
+
+function fmtDate(iso: string) {
+  return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function gradientFor(category: string) {
+  const c = CATEGORY_META[category]?.color ?? '#6C5CE7';
+  return `linear-gradient(135deg, ${c} 0%, #0B1120 100%)`;
+}
+---
+
+<Layout
+  title="Blog ORBITstay — Conteúdo para hoteleiros"
+  description="Artigos práticos sobre gestão, tecnologia, revenue management e tendências para hotéis e pousadas independentes no Brasil."
+  canonical="https://orbitstay.com.br/blog"
+>
+  <Navbar />
+
+  <main class="blog-list">
+    <!-- Hero -->
+    <section class="blog-hero">
+      <div class="container">
+        <p class="blog-hero-eyebrow">Blog</p>
+        <h1 class="blog-hero-title">Conteúdo para hoteleiros que querem crescer</h1>
+        <p class="blog-hero-sub">Gestão, tecnologia, revenue management e tendências da hotelaria independente — escrito por quem entende do assunto.</p>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="blog-filters">
+      <div class="container">
+        <div class="filter-chips" role="tablist" aria-label="Filtrar por categoria">
+          <button class="filter-chip active" data-category="all" role="tab" aria-selected="true">Todos</button>
+          {usedCategories.map((cat) => (
+            <button class="filter-chip" data-category={cat} role="tab" aria-selected="false" style={`--chip-color:${CATEGORY_META[cat]?.color ?? '#6C5CE7'}`}>
+              {CATEGORY_META[cat]?.label ?? cat}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid de posts -->
+    <section class="blog-grid-section">
+      <div class="container">
+        <div class="blog-grid">
+          {posts.map((post) => (
+            <article class="post-card" data-category={post.data.category}>
+              <a href={`/blog/${post.slug}/`} class="post-card-link" aria-label={post.data.title}>
+                <div class="post-cover" style={`background: ${gradientFor(post.data.category)}`}>
+                  <span class="post-cover-mono">{post.data.title.split(' ').slice(0, 2).join(' ')}</span>
+                </div>
+                <div class="post-body">
+                  <span class="post-category" style={`background:${CATEGORY_META[post.data.category]?.color ?? '#6C5CE7'}20; color:${CATEGORY_META[post.data.category]?.color ?? '#6C5CE7'}`}>
+                    {CATEGORY_META[post.data.category]?.label ?? post.data.category}
+                  </span>
+                  <h2 class="post-title">{post.data.title}</h2>
+                  <p class="post-desc">{post.data.description}</p>
+                  <div class="post-meta">
+                    <span>{fmtDate(post.data.publishedAt)}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{post.data.readTime} min de leitura</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <p class="blog-empty" hidden>Nenhum artigo nesta categoria ainda.</p>
+      </div>
+    </section>
+
+    <!-- CTA rodapé -->
+    <section class="blog-cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Quer automatizar a operação do seu hotel?</h2>
+          <p>O ORBITstay é uma plataforma completa: PMS, motor de reservas, check-in digital, fechadura TTLock, WhatsApp e channel manager — tudo em um único sistema.</p>
+          <a href="/cadastro" class="cta-btn">Testar grátis por 14 dias →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+  const cards = document.querySelectorAll<HTMLElement>('.post-card');
+  const empty = document.querySelector<HTMLElement>('.blog-empty');
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const category = chip.dataset.category;
+      chips.forEach((c) => {
+        c.classList.toggle('active', c === chip);
+        c.setAttribute('aria-selected', c === chip ? 'true' : 'false');
+      });
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const match = category === 'all' || card.dataset.category === category;
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+      if (empty) empty.hidden = visibleCount > 0;
+    });
+  });
+</script>
+
+<style>
+  .blog-list {
+    background: var(--bg, #0a0d18);
+    color: var(--white, #fff);
+    min-height: 100vh;
+    padding-top: 64px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .blog-hero {
+    padding: 80px 0 48px;
+    text-align: center;
+  }
+  .blog-hero-eyebrow {
+    color: var(--cyan, #00CEC9);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+  }
+  .blog-hero-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .blog-hero-sub {
+    color: var(--muted, #94a3b8);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Filtros */
+  .blog-filters {
+    padding: 24px 0 16px;
+    border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
+  }
+  .filter-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .filter-chip {
+    --chip-color: #6C5CE7;
+    background: transparent;
+    border: 1px solid var(--border, rgba(255,255,255,0.12));
+    color: var(--muted, #94a3b8);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .filter-chip:hover {
+    color: #fff;
+    border-color: var(--chip-color);
+  }
+  .filter-chip.active {
+    background: var(--chip-color);
+    color: #fff;
+    border-color: var(--chip-color);
+  }
+
+  /* Grid */
+  .blog-grid-section {
+    padding: 48px 0 64px;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+  }
+  .blog-empty {
+    text-align: center;
+    padding: 48px 0;
+    color: var(--muted, #94a3b8);
+  }
+
+  .post-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border, rgba(255,255,255,0.08));
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(108,92,231,0.4);
+    box-shadow: 0 20px 40px -20px rgba(108,92,231,0.3);
+  }
+  .post-card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .post-cover {
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    padding: 24px;
+    text-align: center;
+  }
+  .post-cover-mono {
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+
+  .post-body {
+    padding: 20px;
+  }
+  .post-category {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    color: #fff;
+  }
+  .post-desc {
+    color: var(--muted, #94a3b8);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .post-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted, #94a3b8);
+  }
+
+  /* CTA box */
+  .blog-cta {
+    padding: 0 0 80px;
+  }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(108,92,231,0.15) 0%, rgba(0,206,201,0.15) 100%);
+    border: 1px solid rgba(108,92,231,0.3);
+    border-radius: 24px;
+    padding: 48px 32px;
+    text-align: center;
+  }
+  .cta-box h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .cta-box p {
+    color: var(--muted, #94a3b8);
+    max-width: 640px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--gradient-primary, linear-gradient(135deg, #6C5CE7, #00CEC9));
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .cta-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px -8px rgba(108,92,231,0.5);
+  }
+</style>
