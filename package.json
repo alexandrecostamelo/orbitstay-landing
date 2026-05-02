@@ -11,7 +11,8 @@
   "dependencies": {
     "@astrojs/cloudflare": "^11.0.0",
     "@astrojs/tailwind": "^5.1.0",
-    "astro": "^4.16.0"
+    "astro": "^4.16.0",
+    "framer-motion": "^12.38.0"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
