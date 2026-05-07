@@ -109,6 +109,46 @@ const {
         document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
       });
     </script>
+
+    <!-- Referral cookie + propagacao em links pra /cadastro
+         Captura ?ref= e ?via= da URL, persiste em cookies (30d), e
+         injeta query params em todos os <a href*="/cadastro"> da pagina. -->
+    <script>
+      (function () {
+        function setCookie(name, value, days) {
+          const exp = new Date(Date.now() + days * 86400_000).toUTCString();
+          document.cookie = `${name}=${encodeURIComponent(value)}; expires=${exp}; path=/; SameSite=Lax`;
+        }
+        function getCookie(name) {
+          const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+          return m ? decodeURIComponent(m[1]) : null;
+        }
+
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const refUrl = params.get('ref');
+          const viaUrl = params.get('via');
+          if (refUrl) setCookie('orbitstay_ref', refUrl, 30);
+          if (viaUrl) setCookie('orbitstay_ref_via', viaUrl, 30);
+
+          const ref = getCookie('orbitstay_ref');
+          const via = getCookie('orbitstay_ref_via');
+          if (!ref) return;
+
+          // Propaga em links pra /cadastro (interno e externo pro app)
+          document.querySelectorAll('a[href*="/cadastro"]').forEach((el) => {
+            const a = el;
+            try {
+              const href = a.getAttribute('href') || '';
+              const u = new URL(href, window.location.origin);
+              if (!u.searchParams.has('ref')) u.searchParams.set('ref', ref);
+              if (via && !u.searchParams.has('via')) u.searchParams.set('via', via);
+              a.setAttribute('href', u.toString());
+            } catch (e) { /* ignore malformed url */ }
+          });
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
   </body>
 </html>
 
