@@ -1,0 +1,122 @@
+---
+// Banner de consentimento de cookies (LGPD) da landing. Aparece na primeira
+// visita enquanto não houver decisão. Persistido apenas em document.cookie
+// (orbitstay_consent=all|essential, validade 365 dias) — sem localStorage.
+//
+// A landing não carrega analytics de terceiros hoje; o banner registra o
+// consentimento e linka a Política de Cookies. Se GA4/Meta forem adicionados
+// à landing, basta condicionar a injeção a orbitstay_consent === 'all'.
+---
+
+<div id="cookie-consent" class="cc" role="dialog" aria-live="polite" aria-label="Consentimento de cookies" hidden>
+  <div class="cc-box">
+    <p class="cc-text">
+      Utilizamos cookies para melhorar sua experiência, analisar tráfego e
+      personalizar conteúdo. Ao continuar navegando, você concorda com nossa
+      <a href="/privacidade#cookies">Política de Cookies</a>.
+    </p>
+    <div class="cc-actions">
+      <button type="button" data-consent="essential" class="cc-btn cc-btn--ghost">Apenas essenciais</button>
+      <button type="button" data-consent="all" class="cc-btn cc-btn--primary">Aceitar</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cc {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    animation: cc-slide-up 0.3s ease-out;
+  }
+  .cc-box {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.45);
+  }
+  .cc-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .cc-text a {
+    color: var(--accent-light);
+    text-decoration: underline;
+  }
+  .cc-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .cc-btn {
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .cc-btn--primary {
+    background: var(--gradient-primary);
+    color: #fff;
+  }
+  .cc-btn--primary:hover { opacity: 0.9; }
+  .cc-btn--ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .cc-btn--ghost:hover { color: var(--white); border-color: var(--accent); }
+
+  @media (min-width: 560px) {
+    .cc-actions {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+
+  @keyframes cc-slide-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+</style>
+
+<script>
+  (function () {
+    const COOKIE = 'orbitstay_consent';
+    const MAX_AGE = 365 * 24 * 60 * 60;
+
+    function getConsent(): string | null {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + COOKIE + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : null;
+    }
+    function setConsent(value: string): void {
+      document.cookie = `${COOKIE}=${value}; path=/; max-age=${MAX_AGE}; SameSite=Lax`;
+    }
+
+    const banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+
+    if (getConsent() === null) {
+      banner.hidden = false;
+    }
+
+    banner.querySelectorAll('[data-consent]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const value = (btn as HTMLElement).dataset.consent;
+        if (value === 'all' || value === 'essential') {
+          setConsent(value);
+          banner.hidden = true;
+        }
+      });
+    });
+  })();
+</script>
