@@ -1,0 +1,101 @@
+---
+import type { LegalLongSection } from '@/data/legal';
+
+interface Props {
+  title: string;
+  intro: string;
+  sections: LegalLongSection[];
+  lastUpdated: string;
+}
+
+const { title, intro, sections, lastUpdated } = Astro.props;
+---
+
+<section class="doc-hero">
+  <div class="doc-hero-inner">
+    <h1 class="section-title">{title}</h1>
+    <p class="section-sub">{intro}</p>
+    <p class="doc-updated">Última atualização: {lastUpdated}</p>
+  </div>
+</section>
+
+<article class="doc-body">
+  {sections.map((sec) => (
+    <section id={sec.id} class="doc-section">
+      <h2 class="doc-heading">{sec.heading}</h2>
+      {sec.paragraphs?.map((p) => <p class="doc-paragraph">{p}</p>)}
+      {sec.items && (
+        <ul class="doc-list">
+          {sec.items.map((item) => <li>{item}</li>)}
+        </ul>
+      )}
+    </section>
+  ))}
+</article>
+
+<style>
+  .doc-hero {
+    padding: 120px 24px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .doc-hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .doc-updated {
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .doc-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  /* scroll-margin garante que âncoras (#cookies) não fiquem sob a navbar fixa. */
+  .doc-section {
+    scroll-margin-top: 96px;
+    margin-bottom: 36px;
+  }
+  .doc-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .doc-paragraph {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+  .doc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .doc-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .doc-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+  }
+
+  @media (max-width: 768px) {
+    .doc-hero { padding: 100px 20px 28px; }
+  }
+</style>
