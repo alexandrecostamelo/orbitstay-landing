@@ -1,0 +1,95 @@
+---
+// Modelo imprimível de autorização de hospedagem de menor (ECA art. 82).
+// Página standalone A4 — o hóspede preenche/imprime ou salva como PDF.
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Modelo — Autorização de hospedagem de menor | ORBITstay</title>
+    <style>
+      :root { --ink:#1f2937; --muted:#6b7280; --line:#9ca3af; }
+      * { box-sizing: border-box; }
+      body {
+        font-family: 'Times New Roman', Georgia, serif;
+        color: var(--ink); margin: 0; background: #f3f4f6;
+        line-height: 1.9;
+      }
+      .toolbar {
+        position: sticky; top: 0; display: flex; gap: 12px; justify-content: center;
+        padding: 12px; background: #fff; border-bottom: 1px solid #e5e7eb;
+      }
+      .toolbar button {
+        font-family: system-ui, sans-serif; font-size: 14px; font-weight: 600;
+        background: #0f766e; color: #fff; border: 0; border-radius: 8px;
+        padding: 10px 18px; cursor: pointer;
+      }
+      .sheet {
+        background: #fff; max-width: 21cm; min-height: 29.7cm; margin: 24px auto;
+        padding: 2.5cm; box-shadow: 0 1px 8px rgba(0,0,0,.08);
+      }
+      h1 { font-size: 18px; text-align: center; text-transform: uppercase; letter-spacing: .5px; margin: 0 0 28px; }
+      p { font-size: 15px; text-align: justify; margin: 0 0 18px; }
+      .fill { border-bottom: 1px solid var(--line); display: inline-block; min-width: 60px; }
+      .opt { white-space: nowrap; }
+      .sign { margin-top: 56px; text-align: center; }
+      .sign .line { border-top: 1px solid var(--ink); width: 70%; margin: 0 auto 6px; }
+      .note { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+      .foot { font-family: system-ui, sans-serif; font-size: 11px; color: var(--muted); text-align: center; margin-top: 40px; }
+      @media print {
+        body { background: #fff; }
+        .toolbar { display: none; }
+        .sheet { box-shadow: none; margin: 0; max-width: none; padding: 1.5cm; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <button onclick="window.print()">🖨️ Imprimir / Salvar como PDF</button>
+    </div>
+
+    <div class="sheet">
+      <h1>Autorização de Hospedagem de Menor</h1>
+
+      <p>
+        Eu, <span class="fill" style="min-width:320px"></span>,
+        portador(a) do documento <span class="fill" style="min-width:220px"></span>,
+        na qualidade de
+        <span class="opt">(&nbsp;&nbsp;) pai</span>
+        <span class="opt">(&nbsp;&nbsp;) mãe</span>
+        <span class="opt">(&nbsp;&nbsp;) tutor(a) legal</span>
+        do(a) menor <span class="fill" style="min-width:300px"></span>,
+        nascido(a) em <span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:60px"></span>,
+        autorizo expressamente a hospedagem do(a) referido(a) menor no estabelecimento
+        <span class="fill" style="min-width:320px"></span>,
+        no período de <span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:60px"></span>
+        a <span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:60px"></span>,
+        sob a responsabilidade de <span class="fill" style="min-width:280px"></span>
+        (nome do acompanhante adulto), portador(a) do documento
+        <span class="fill" style="min-width:200px"></span>.
+      </p>
+
+      <p>
+        Declaro estar ciente das responsabilidades legais decorrentes desta autorização,
+        conforme art. 82 do Estatuto da Criança e do Adolescente (Lei 8.069/90).
+      </p>
+
+      <p>
+        Local: <span class="fill" style="min-width:240px"></span>
+        &nbsp;&nbsp; Data: <span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:30px"></span>/<span class="fill" style="min-width:60px"></span>
+      </p>
+
+      <div class="sign">
+        <div class="line"></div>
+        Assinatura do responsável
+        <p class="note">[ Reconhecimento de firma em cartório recomendado ]</p>
+      </div>
+
+      <p class="foot">
+        Modelo fornecido pela plataforma ORBITstay — adapte conforme a necessidade do estabelecimento.
+      </p>
+    </div>
+  </body>
+</html>
