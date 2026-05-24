@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/meus-dados", "destination": "https://api.orbitstay.com.br/meus-dados" },
+    { "source": "/meus-dados/:path*", "destination": "https://api.orbitstay.com.br/meus-dados/:path*" },
+    { "source": "/api/public/data-subject/:path*", "destination": "https://api.orbitstay.com.br/api/public/data-subject/:path*" },
+    { "source": "/_next/:path*", "destination": "https://api.orbitstay.com.br/_next/:path*" }
+  ]
+}

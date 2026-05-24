@@ -19,6 +19,36 @@ import { PRIVACY_INTRO, PRIVACY_SECTIONS, LAST_UPDATED } from '@/data/legal';
       sections={PRIVACY_SECTIONS}
       lastUpdated={LAST_UPDATED}
     />
+
+    <!-- Exercer meus direitos (LGPD art. 18) -->
+    <section class="max-w-3xl mx-auto px-4 pb-20">
+      <div class="rounded-2xl border border-teal-200 bg-teal-50 p-8">
+        <h2 class="text-2xl font-bold text-gray-900">Exercer meus direitos</h2>
+        <p class="mt-2 text-gray-700">
+          A LGPD (art. 18) garante a você o direito de, a qualquer momento:
+        </p>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-gray-700">
+          <li>📋 Acessar seus dados</li>
+          <li>✏️ Corrigir dados incompletos ou desatualizados</li>
+          <li>🗑️ Solicitar a exclusão dos dados</li>
+          <li>📦 Portabilidade (exportar seus dados)</li>
+          <li>🎭 Anonimização dos dados</li>
+          <li>🔍 Saber com quem compartilhamos seus dados</li>
+          <li>🚫 Revogar o consentimento</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap items-center gap-4">
+          <a
+            href="/meus-dados"
+            class="inline-flex items-center rounded-lg bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-teal-800"
+          >
+            Acessar Portal do Titular
+          </a>
+          <a href="mailto:privacidade@orbitstay.com.br" class="text-sm text-teal-800 underline">
+            privacidade@orbitstay.com.br
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>
